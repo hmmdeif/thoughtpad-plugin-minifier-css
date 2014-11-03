@@ -1,14 +1,14 @@
 {
-  "name": "thoughtpad-plugin-minifier-javascript",
+  "name": "thoughtpad-plugin-minifier-css",
   "version": "0.0.1",
-  "description": "Thoughtpad plugin for javascript minification",
+  "description": "Thoughtpad plugin for CSS minification",
   "engines": {
     "node": "0.11",
     "npm": "1.4"
   },
   "repository" : { 
     "type" : "git", 
-    "url" : "https://github.com/hmmdeif/thoughtpad-plugin-minifier-javascript.git"
+    "url" : "https://github.com/hmmdeif/thoughtpad-plugin-minifier-css.git"
   },
   "dependencies": {
     "uglifycss": "~0.0.9"
