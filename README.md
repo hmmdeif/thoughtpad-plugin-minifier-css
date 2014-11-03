@@ -4,7 +4,7 @@ thoughtpad-plugin-minifier-css
 [![build status][travis-image]][travis-url]
 [![Test coverage][coveralls-image]][coveralls-url]
 
-A thoughtpad plugin that responds to CSS post-compilation events. CSS files with by minified for use in the browser.
+A thoughtpad plugin that responds to CSS post-compilation events. CSS files will be minified for use in the browser.
 
 ## Usage
 
