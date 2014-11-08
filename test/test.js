@@ -13,7 +13,9 @@ describe("css minify plugin", function () {
             true.should.be.true;
         });
 
-        thoughtpad.notify("css-postcompile-request", { contents: "" });
+        co(function *() {
+            yield thoughtpad.notify("css-postcompile-request", { contents: "d" });
+        })();
     });
 
     it("should ignore requests with no content", function () {
@@ -23,7 +25,9 @@ describe("css minify plugin", function () {
             true.should.be.false;
         });
 
-        thoughtpad.notify("css-postcompile-request", { contents: "" });
+        co(function *() {
+            yield thoughtpad.notify("css-postcompile-request", { contents: "" });
+        })();
     });
 
     it("should minify css from file", function (done) {
@@ -31,26 +35,28 @@ describe("css minify plugin", function () {
         thoughtpad = man.registerPlugins([app]);
 
         thoughtpad.subscribe("css-postcompile-complete", function *(contents) {
-            contents.should.equal('.class1{width:100%}');
             yield fs.unlink(filename);
-            done();
+            contents.should.equal('.class1{width:100%}');                        
         });
 
         co(function *() {
             yield fs.writeFile(filename, ".class1 {\n\twidth: 100%;\n}");
-            thoughtpad.notify("css-postcompile-request", { contents: [filename] });
+            yield thoughtpad.notify("css-postcompile-request", { contents: [filename] });
+            done();
         })();
         
     });
 
-    it("should minify css from string", function () {
+    it("should minify css from string", function (done) {
         thoughtpad = man.registerPlugins([app]);
 
         thoughtpad.subscribe("css-postcompile-complete", function *(contents) {
             contents.should.equal('.class1{width:100%}');
         });
 
-        thoughtpad.notify("css-postcompile-request", { contents: ".class1 {\n\twidth: 100%;\n}" });
-        
+        co(function *() {
+            yield thoughtpad.notify("css-postcompile-request", { contents: ".class1 {\n\twidth: 100%;\n}" });
+            done();
+        })();
     });
 });

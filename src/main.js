@@ -17,7 +17,7 @@ compile = function *(obj) {
         ret = uglify.processFiles(obj.contents, obj.data);
     }
 
-    _thoughtpad.notify("css-postcompile-complete", ret);
+    yield _thoughtpad.notify("css-postcompile-complete", ret);
 };
 
 module.exports = {
