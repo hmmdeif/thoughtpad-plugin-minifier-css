@@ -58,7 +58,7 @@ describe("css minify plugin", function () {
         thoughtpad = man.registerPlugins([app]);
         thoughtpad.config = {
             eventData: {
-                'html-postcompile': {}
+                'css-postcompile': {}
             }
         };
 
