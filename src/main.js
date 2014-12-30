@@ -1,23 +1,27 @@
-var uglify = require('uglifycss'),
-    _thoughtpad;
+var uglify = require('uglifycss');
 
 var init = function (thoughtpad) {
-    _thoughtpad = thoughtpad;
-    _thoughtpad.subscribe("css-postcompile-request", compile);
+    thoughtpad.subscribe("css-postcompile-request", compile);
 },
 
 compile = function *(obj) {  
     if (!obj.contents) return;
 
-    var ret;
+    var ret,
+        // By default we take the contents by string. The user can override this using the eventData config variable
+        data = {};
 
-    if (typeof obj.contents === "string") {
-        ret = uglify.processString(obj.contents, obj.data);
-    } else {
-        ret = uglify.processFiles(obj.contents, obj.data);
+    if (obj.thoughtpad.config && obj.thoughtpad.config.eventData && obj.thoughtpad.config.eventData['css-postcompile']) {
+        data = obj.thoughtpad.config.eventData['css-postcompile'];
     }
 
-    yield _thoughtpad.notify("css-postcompile-complete", ret);
+    if (typeof obj.contents === "string") {
+        ret = uglify.processString(obj.contents, data);
+    } else {
+        ret = uglify.processFiles(obj.contents, data);
+    }
+
+    yield obj.thoughtpad.notify("css-postcompile-complete", { contents: ret, name: obj.name });
 };
 
 module.exports = {

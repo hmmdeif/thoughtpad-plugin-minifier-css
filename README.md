@@ -18,7 +18,7 @@ var thoughtpad = man.registerPlugins([minify]);
 thoughtpad.subscribe("css-postcompile-complete", function (data) {
     console.log("Minified css returned here"); 
 });
-thoughtpad.notify("css-postcompile-request", { contents: "your css code here" });
+yield thoughtpad.notify("css-postcompile-request", { contents: "your css code here", name: "name of file" });
 ```
 
 ## Tests
