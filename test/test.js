@@ -6,7 +6,7 @@ var should = require('should'),
     thoughtpad;
 
 describe("css minify plugin", function () {
-    it("should register correctly to events", function () {
+    it("should register correctly to events", function (done) {
         thoughtpad = man.registerPlugins([app]);
 
         thoughtpad.subscribe("css-postcompile-complete", function *() {
@@ -15,10 +15,11 @@ describe("css minify plugin", function () {
 
         co(function *() {
             yield thoughtpad.notify("css-postcompile-request", { contents: "d" });
-        })();
+            done();
+        }).catch(done);
     });
 
-    it("should ignore requests with no content", function () {
+    it("should ignore requests with no content", function (done) {
         thoughtpad = man.registerPlugins([app]);
 
         thoughtpad.subscribe("css-postcompile-complete", function *() {
@@ -27,7 +28,8 @@ describe("css minify plugin", function () {
 
         co(function *() {
             yield thoughtpad.notify("css-postcompile-request", { contents: "" });
-        })();
+            done();
+        }).catch(done);
     });
 
     it("should minify css from file", function (done) {
@@ -48,7 +50,7 @@ describe("css minify plugin", function () {
             yield thoughtpad.notify("css-postcompile-request", { contents: [filename], name: 'hello' });
             contents.should.equal('.class1{width:100%}');
             done();
-        })();
+        }).catch(done);
         
     });
 
@@ -70,6 +72,6 @@ describe("css minify plugin", function () {
             yield thoughtpad.notify("css-postcompile-request", { contents: ".class1 {\n\twidth: 100%;\n}" });
             contents.should.equal('.class1{width:100%}');
             done();
-        })();
+        }).catch(done);
     });
 });
